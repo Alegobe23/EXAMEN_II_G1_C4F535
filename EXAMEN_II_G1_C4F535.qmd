@@ -68,3 +68,14 @@ base.datos$Categoría.Edad <- ifelse(abs(base.datos$Z.Score.Edad) > 1.96, "ATÍP
 View(base.datos)
 
 ```
+
+4.  Detecte el porcentaje de valores faltantes en cada una de las columnas.
+
+```{r}
+porcentaje.NA.columnas <- data.frame(
+  Columna = names(base.datos),
+  Porcentaje.NA = round((colSums(is.na(base.datos)) / nrow(base.datos)) * 100, 2)
+)
+
+View(porcentaje.NA.columnas)
+```
