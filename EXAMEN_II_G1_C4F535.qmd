@@ -1,0 +1,38 @@
+---
+title: "PP"
+format: html
+editor: visual
+---
+
+# Portada
+
+Universidad de Costa Rica
+
+Escuela de Matemática
+
+Segundo examen parcial
+
+Prof. Luis Juárez Potoy
+
+Estudiante: Alexandra González Bermúdez
+
+II Semestre
+
+2025
+
+# Desarrollo de incisos
+
+## Librerías
+
+```{r}
+library(readxl)
+library(dplyr)
+library(ggplot2)
+```
+
+1.  Cargar base de datos usando Power Query de Excel.
+
+```{r}
+base.datos <- read_excel("moras.xlsx")
+View(base.datos)
+```
