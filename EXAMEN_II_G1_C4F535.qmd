@@ -47,3 +47,24 @@ summary(base.datos$SALARIO)
 summary(base.datos$EDAD)
 
 ```
+
+3.  Realice una columna donde se identifiquen valores atípicos haciendo uso
+    del Z-Score, de tal manera que si el valor absoluto del Z-Score es mayor a 1,96 se
+    considera un valor atípico. Esto para la columna de salario y edad.
+
+```{r}
+#Se agrega una columna con el Z Score de la columna del salario. 
+base.datos$Z.Score.Salario <- round((base.datos$SALARIO - mean(base.datos$SALARIO, na.rm = TRUE)) / sd(base.datos$SALARIO, na.rm = TRUE), 2)
+
+#Se agrega una columna con el Z Score de la columna de la edad.
+base.datos$Z.Score.Edad <- round((base.datos$EDAD - mean(base.datos$EDAD, na.rm = TRUE)) / sd(base.datos$EDAD, na.rm = TRUE), 2)
+
+#Se agrega una columna con la clasificación del Z Score de la columna del salario.
+base.datos$Categoría.Salario <- ifelse(abs(base.datos$Z.Score.Salario) > 1.96, "ATÍPICO","NORMAL")
+
+#Se agrega una columna con la clasificación del Z Score de la columna de la edad.
+base.datos$Categoría.Edad <- ifelse(abs(base.datos$Z.Score.Edad) > 1.96, "ATÍPICO","NORMAL")
+
+View(base.datos)
+
+```
