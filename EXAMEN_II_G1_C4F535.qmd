@@ -79,3 +79,25 @@ porcentaje.NA.columnas <- data.frame(
 
 View(porcentaje.NA.columnas)
 ```
+
+5.  Imputar los valores faltantes haciendo uso de algún método.
+
+```{r}
+#Para imputar los valores en las columnas de edad y salario, se utiliza el promedio respectivo de cada columna. En el caso de la columna del tipo de aseguramiento, se emplea la moda. 
+
+#Procedemos a imputar la columna del salario. 
+
+base.datos$SALARIO[is.na(base.datos$SALARIO)] <- 657534
+
+#Procedemos a imputar la columna de la edad. 
+base.datos$EDAD[is.na(base.datos$EDAD)] <- 41.91
+
+#Para ver qué elemento se repite más en la columna del tipo de aseguramiento. 
+table(base.datos$TIPO_ASEGURAMIENTO)
+
+#Procedemos a imputar la columna de la edad. 
+base.datos$TIPO_ASEGURAMIENTO[is.na(base.datos$TIPO_ASEGURAMIENTO)] <- "ASALARIADO"
+
+View(base.datos)
+
+```
