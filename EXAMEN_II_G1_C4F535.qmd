@@ -48,9 +48,7 @@ summary(base.datos$EDAD)
 
 ```
 
-3.  Realice una columna donde se identifiquen valores atípicos haciendo uso
-    del Z-Score, de tal manera que si el valor absoluto del Z-Score es mayor a 1,96 se
-    considera un valor atípico. Esto para la columna de salario y edad.
+3.  Realice una columna donde se identifiquen valores atípicos haciendo uso del Z-Score, de tal manera que si el valor absoluto del Z-Score es mayor a 1,96 se considera un valor atípico. Esto para la columna de salario y edad.
 
 ```{r}
 #Se agrega una columna con el Z Score de la columna del salario. 
@@ -101,3 +99,113 @@ base.datos$TIPO_ASEGURAMIENTO[is.na(base.datos$TIPO_ASEGURAMIENTO)] <- "ASALARIA
 View(base.datos)
 
 ```
+
+7.  Realizar gráficos donde se vea la cantidad de individuos por cada categoría. Analizar los resultados.
+
+Gráfico de la categoría de sexo
+
+```{r}
+ggplot(base.datos, aes(x = SEXO)) +
+  geom_bar(fill = "pink", width = 0.5)+
+  theme_minimal()+
+  labs(x = "Sexo del asegurado", y = "Cantidad", 
+       title = "Cantidad de asegurados por sexo")+
+  theme(plot.title = element_text(hjust = 0.5),
+        axis.title.y = element_text(margin = margin(r = 15)),
+        axis.title.x = element_text(margin = margin(t = 15)))+
+  geom_text(stat = "count", aes(label = after_stat(count)), 
+            vjust = -0.1, color = "deeppink", size = 4, fontface = "bold") 
+
+
+ggsave("C:/Users/alego/OneDrive/Documentos/EXAMEN_II_G1_C4F535_R/EXAMEN_II_G1_C4F535/res/Cantidad_asegurados_sexo.png", width = 8, height = 6, dpi = 900)
+```
+
+Gráfico de la categoría de sector
+
+```{r}
+ggplot(base.datos, aes(x = SECTOR)) +
+  geom_bar(fill = "pink", width = 0.5)+
+  theme_minimal()+
+  labs(x = "Sector", y = "Cantidad", 
+       title = "Cantidad de asegurados por sector")+
+  theme(plot.title = element_text(hjust = 0.5),
+        axis.title.y = element_text(margin = margin(r = 15)),
+        axis.title.x = element_text(margin = margin(t = 15)))+
+  geom_text(stat = "count", aes(label = after_stat(count)), 
+            vjust = -0.1, color = "deeppink", size = 4, fontface = "bold") 
+
+
+ggsave("C:/Users/alego/OneDrive/Documentos/EXAMEN_II_G1_C4F535_R/EXAMEN_II_G1_C4F535/res/Cantidad_asegurados_sector.png", width = 8, height = 6, dpi = 900)
+```
+
+Gráfico de la categoría del tipo de aseguramiento
+
+```{r}
+ggplot(base.datos, aes(x = "", fill = TIPO_ASEGURAMIENTO)) +
+  geom_bar(width= 0.5) +
+  coord_polar(theta = "y") +
+  theme_void() + 
+  geom_text(stat = "count", aes(label = after_stat(count)), 
+            position = position_stack(vjust = 0.5)) +
+  labs(title = "Cantidad de asegurados por tipo de aseguramiento",
+        fill = "Tipo de aseguramiento")
+
+
+ggsave("C:/Users/alego/OneDrive/Documentos/EXAMEN_II_G1_C4F535_R/EXAMEN_II_G1_C4F535/res/Cantidad_asegurados_aseguramiento.png", width = 8, height = 6, dpi = 900)
+```
+
+Gráfico de la categoría del estado de actividad del seguro
+
+```{r}
+ggplot(base.datos, aes(x = INDICADOR_ACTIVO)) +
+  geom_bar(fill = "pink", width = 0.5)+
+  theme_minimal()+
+  labs(x = "Estado de actividad del seguro: SI (activo); NO (inactivo)", y = "Cantidad", 
+       title = "Cantidad de asegurados por estado de actividad")+
+  theme(plot.title = element_text(hjust = 0.5),
+        axis.title.y = element_text(margin = margin(r = 15)),
+        axis.title.x = element_text(margin = margin(t = 15)))+
+  geom_text(stat = "count", aes(label = after_stat(count)), 
+            vjust = -0.1, color = "deeppink", size = 4, fontface = "bold") 
+
+
+ggsave("C:/Users/alego/OneDrive/Documentos/EXAMEN_II_G1_C4F535_R/EXAMEN_II_G1_C4F535/res/Cantidad_asegurados_estado_actividad.png", width = 8, height = 6, dpi = 900)
+```
+
+Gráfico de la categoría de la procedencia
+
+```{r}
+ggplot(base.datos, aes(x = INDICADOR.EXTRANJERO)) +
+  geom_bar(fill = "pink", width = 0.5)+
+  theme_minimal()+
+  labs(x = "Indicador de extranjería: SI (extranjero); NO (nacional)", y = "Cantidad", 
+       title = "Cantidad de asegurados por procedencia")+
+  theme(plot.title = element_text(hjust = 0.5),
+        axis.title.y = element_text(margin = margin(r = 15)),
+        axis.title.x = element_text(margin = margin(t = 15)))+
+  geom_text(stat = "count", aes(label = after_stat(count)), 
+            vjust = -0.1, color = "deeppink", size = 4, fontface = "bold") 
+
+
+ggsave("C:/Users/alego/OneDrive/Documentos/EXAMEN_II_G1_C4F535_R/EXAMEN_II_G1_C4F535/res/Cantidad_asegurados_procedencia.png", width = 8, height = 6, dpi = 900)
+```
+
+Gráfico de la categoría de la morosidad
+
+```{r}
+ggplot(base.datos, aes(x = INDICADOR_MOROSO)) +
+  geom_bar(fill = "pink", width = 0.5)+
+  theme_minimal()+
+  labs(x = "Indicador de morosidad: SI (moroso); NO (no moroso)", y = "Cantidad", 
+       title = "Cantidad de asegurados por estado de morosidad")+
+  theme(plot.title = element_text(hjust = 0.5),
+        axis.title.y = element_text(margin = margin(r = 15)),
+        axis.title.x = element_text(margin = margin(t = 15)))+
+  geom_text(stat = "count", aes(label = after_stat(count)), 
+            vjust = -0.1, color = "deeppink", size = 4, fontface = "bold") 
+
+
+ggsave("C:/Users/alego/OneDrive/Documentos/EXAMEN_II_G1_C4F535_R/EXAMEN_II_G1_C4F535/res/Cantidad_asegurados_morosidad.png", width = 8, height = 6, dpi = 900)
+```
+
+**Nota**: aplica el mismo análisis efectuado en el Excel, ya que los datos no han cambiado.
