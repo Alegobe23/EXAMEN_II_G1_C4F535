@@ -36,3 +36,14 @@ library(ggplot2)
 base.datos <- read_excel("moras.xlsx")
 View(base.datos)
 ```
+
+2.  Realizar un resumen de 5 números incluyendo el promedio, para las columnas numéricas de la base de datos.
+
+```{r}
+#Resumen de la columna del salario. 
+summary(base.datos$SALARIO)
+
+#Resumen de la columna de la edad. 
+summary(base.datos$EDAD)
+
+```
