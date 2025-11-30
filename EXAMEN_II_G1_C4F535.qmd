@@ -209,3 +209,133 @@ ggsave("C:/Users/alego/OneDrive/Documentos/EXAMEN_II_G1_C4F535_R/EXAMEN_II_G1_C4
 ```
 
 **Nota**: aplica el mismo análisis efectuado en el Excel, ya que los datos no han cambiado.
+
+7.  Realizar un gráfico para cada una de las variables categóricas en donde se vea el porcentaje de personas morosas por cada clase. Analizar los resultados.
+
+Categoría del sexo
+
+```{r}
+datos.sexo <- base.datos %>% 
+  filter(INDICADOR_MOROSO == "SI") %>% 
+  group_by(SEXO) %>% 
+  summarise(
+    Porcentaje.morosos = (n()/nrow(base.datos)) * 100
+  )
+#View(datos.sexo)
+
+ggplot(datos.sexo, aes(x = SEXO, y = Porcentaje.morosos)) +
+  geom_bar(stat = "identity", fill = "pink", width = 0.5)+
+  theme_minimal()+
+  labs(x = "Sexo", y = "Porcentaje", 
+       title = "Porcentaje de morosidad por sexo")+
+  theme(plot.title = element_text(hjust = 0.5),
+        axis.title.y = element_text(margin = margin(r = 15)),
+        axis.title.x = element_text(margin = margin(t = 15)))+
+  geom_text(aes(label = Porcentaje.morosos), 
+            vjust = -0.1, color = "deeppink", size = 4, fontface = "bold") 
+
+
+ggsave("C:/Users/alego/OneDrive/Documentos/EXAMEN_II_G1_C4F535_R/EXAMEN_II_G1_C4F535/res/Porcentaje_morosidad_sexo.png", width = 8, height = 6, dpi = 900)
+```
+
+Categoría de sector
+
+```{r}
+datos.sector <- base.datos %>% 
+  filter(INDICADOR_MOROSO == "SI") %>% 
+  group_by(SECTOR) %>% 
+  summarise(
+    Porcentaje.morosos = (n()/nrow(base.datos)) * 100
+  )
+
+ggplot(datos.sector, aes(x = SECTOR, y = Porcentaje.morosos)) +
+  geom_bar(stat = "identity", fill = "pink", width = 0.5)+
+  theme_minimal()+
+  labs(x = "Sector", y = "Porcentaje", 
+       title = "Porcentaje de morosidad por sector")+
+  theme(plot.title = element_text(hjust = 0.5),
+        axis.title.y = element_text(margin = margin(r = 15)),
+        axis.title.x = element_text(margin = margin(t = 15)))+
+  geom_text(aes(label = Porcentaje.morosos), 
+            vjust = -0.1, color = "deeppink", size = 4, fontface = "bold") 
+
+
+ggsave("C:/Users/alego/OneDrive/Documentos/EXAMEN_II_G1_C4F535_R/EXAMEN_II_G1_C4F535/res/Porcentaje_morosidad_sector.png", width = 8, height = 6, dpi = 900)
+```
+
+Categoría de procedencia
+
+```{r}
+datos.procedencia <- base.datos %>% 
+  filter(INDICADOR_MOROSO == "SI") %>% 
+  group_by(INDICADOR.EXTRANJERO) %>% 
+  summarise(
+    Porcentaje.morosos = (n()/nrow(base.datos)) * 100
+  )
+
+ggplot(datos.procedencia, aes(x = INDICADOR.EXTRANJERO, y = Porcentaje.morosos)) +
+  geom_bar(stat = "identity", fill = "pink", width = 0.5)+
+  theme_minimal()+
+  labs(x = "Indicador de extranjería: SI (extranjero); NO (nacional)", y = "Porcentaje", 
+       title = "Porcentaje de morosidad por procedencia")+
+  theme(plot.title = element_text(hjust = 0.5),
+        axis.title.y = element_text(margin = margin(r = 15)),
+        axis.title.x = element_text(margin = margin(t = 15)))+
+  geom_text(aes(label = Porcentaje.morosos), 
+            vjust = -0.1, color = "deeppink", size = 4, fontface = "bold") 
+
+
+ggsave("C:/Users/alego/OneDrive/Documentos/EXAMEN_II_G1_C4F535_R/EXAMEN_II_G1_C4F535/res/Porcentaje_morosidad_procedencia.png", width = 8, height = 6, dpi = 900)
+```
+
+Categoría de actividad del seguro
+
+```{r}
+datos.actividad <- base.datos %>% 
+  filter(INDICADOR_MOROSO == "SI") %>% 
+  group_by(INDICADOR_ACTIVO) %>% 
+  summarise(
+    Porcentaje.morosos = (n()/nrow(base.datos)) * 100
+  )
+
+ggplot(datos.actividad, aes(x = INDICADOR_ACTIVO, y = Porcentaje.morosos)) +
+  geom_bar(stat = "identity", fill = "pink", width = 0.5)+
+  theme_minimal()+
+  labs(x = "Indicador de actividad: SI (activo); NO (inactivo)", y = "Porcentaje", 
+       title = "Porcentaje de morosidad por actividad del seguro")+
+  theme(plot.title = element_text(hjust = 0.5),
+        axis.title.y = element_text(margin = margin(r = 15)),
+        axis.title.x = element_text(margin = margin(t = 15)))+
+  geom_text(aes(label = Porcentaje.morosos), 
+            vjust = -0.1, color = "deeppink", size = 4, fontface = "bold") 
+
+
+ggsave("C:/Users/alego/OneDrive/Documentos/EXAMEN_II_G1_C4F535_R/EXAMEN_II_G1_C4F535/res/Porcentaje_morosidad_actividad.png", width = 8, height = 6, dpi = 900)
+```
+
+Categoría del tipo de aseguramiento
+
+```{r}
+datos.aseguramiento <- base.datos %>% 
+  filter(INDICADOR_MOROSO == "SI") %>% 
+  group_by(TIPO_ASEGURAMIENTO) %>% 
+  summarise(
+    Porcentaje.morosos = (n()/nrow(base.datos)) * 100
+  )
+
+ggplot(datos.aseguramiento, aes(x = "", y = Porcentaje.morosos, fill = TIPO_ASEGURAMIENTO)) +
+  geom_bar(width = 0.5, stat = "identity") +
+  coord_polar(theta = "y") +
+  theme_void() +
+  geom_text(aes(label = paste0(round(Porcentaje.morosos, 1), "%")),
+    angle = 45, 
+    size = 3,
+    fontface = "bold",
+    position = position_stack(vjust = 0.5)) +
+  labs(title = "Porcentaje de morosidad por tipo de aseguramiento",
+    fill = "Tipo de aseguramiento")
+
+ggsave("C:/Users/alego/OneDrive/Documentos/EXAMEN_II_G1_C4F535_R/EXAMEN_II_G1_C4F535/res/Porcentaje_morosidad_aseguramiento.png", width = 8, height = 6, dpi = 900)
+```
+
+**Nota**: aplica el mismo análisis efectuado en el Excel, ya que los datos no han cambiado.
