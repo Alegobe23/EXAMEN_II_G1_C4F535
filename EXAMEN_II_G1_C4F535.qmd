@@ -339,3 +339,65 @@ ggsave("C:/Users/alego/OneDrive/Documentos/EXAMEN_II_G1_C4F535_R/EXAMEN_II_G1_C4
 ```
 
 **Nota**: aplica el mismo análisis efectuado en el Excel, ya que los datos no han cambiado.
+
+8.  Para las variables numéricas realizar gráficos de barras donde se ponga un
+    color de acuerdo a si es moroso o no. Analizar los resultados.
+
+Categoría de la edad, ordenada por décadas.
+
+```{r}
+datos.decadas <- base.datos %>% 
+  mutate(DECADA = floor(EDAD/10) * 10) %>%
+  group_by(DECADA) 
+
+decadas <- unique(datos.decadas$DECADA)
+
+
+for(i in decadas){
+  datos.utilizar = filter(datos.decadas, DECADA == i)
+
+  grafico = ggplot(datos.utilizar, aes(x = INDICADOR_MOROSO, fill = INDICADOR_MOROSO)) +
+            geom_bar(stat = "count", width = 0.3)+
+            theme_minimal()+
+            labs(x = "Indicador morosidad", y = "Cantidad", 
+                title=paste("Distribución de la morosidad en la década etaria:",i), fill = "Morosidad")+
+            theme(plot.title = element_text(hjust = 0.5),
+                  axis.title.y = element_text(margin = margin(r = 15)),
+                  axis.title.x = element_text(margin = margin(t = 15)))+
+            geom_text(stat = "count", aes(label = after_stat(count)), 
+                      vjust = 1, color = "black", size = 4)
+ 
+ggsave(paste0("C:/Users/alego/OneDrive/Documentos/EXAMEN_II_G1_C4F535_R/EXAMEN_II_G1_C4F535/res/Cantidad_morosidad_decada_", i, ".png"), plot = grafico, width = 8, height = 6, dpi = 300)}
+```
+
+Categoría del salario, ordenado por rangos.
+
+```{r}
+datos.salario <- base.datos %>%
+  mutate(RANGO.SALARIO = case_when(
+    SALARIO <= 5000000 ~ "0-5M",
+    SALARIO > 5000000 & SALARIO <= 10000000 ~ "5-10M",
+    SALARIO > 10000000 & SALARIO <= 15000000 ~ "10-15M",
+    SALARIO > 15000000 & SALARIO <= 20000000 ~ "15-20M"
+  ))
+
+rango.salario <- unique(datos.salario$RANGO.SALARIO)
+
+for(i in rango.salario){
+  datos.utilizar = filter(datos.salario, RANGO.SALARIO == i)
+
+  grafico = ggplot(datos.utilizar, aes(x = INDICADOR_MOROSO, fill = INDICADOR_MOROSO)) +
+            geom_bar(stat = "count", width = 0.3)+
+            theme_minimal()+
+            labs(x = "Indicador morosidad", y = "Cantidad", 
+                title=paste("Distribución de la morosidad en el rango salarial:",i), fill = "Morosidad")+
+            theme(plot.title = element_text(hjust = 0.5),
+                  axis.title.y = element_text(margin = margin(r = 15)),
+                  axis.title.x = element_text(margin = margin(t = 15)))+
+            geom_text(stat = "count", aes(label = after_stat(count)), 
+                      vjust = 1, color = "black", size = 4)
+ 
+ggsave(paste0("C:/Users/alego/OneDrive/Documentos/EXAMEN_II_G1_C4F535_R/EXAMEN_II_G1_C4F535/res/Cantidad_morosidad_rando_salarial_", i, ".png"), plot = grafico, width = 8, height = 6, dpi = 300)}
+```
+
+**Nota**: aplica el mismo análisis efectuado en el Excel, ya que los datos no han cambiado.
