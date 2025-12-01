@@ -401,3 +401,32 @@ ggsave(paste0("C:/Users/alego/OneDrive/Documentos/EXAMEN_II_G1_C4F535_R/EXAMEN_I
 ```
 
 **Nota**: aplica el mismo análisis efectuado en el Excel, ya que los datos no han cambiado.
+
+10. Árbol de decisión
+
+```{r}
+#install.packages("rpart")
+#install.packages("rpart.plot")
+library(rpart)
+library(rpart.plot)
+library(dplyr)
+
+#Primero se descarta la columna del ID. Al ejecutar el árbol por primera vez, se visualizó de manera desordenada debido a los largos nombres del tipo de aseguramiento. 
+base.arbol <- base.datos %>% 
+  mutate(TIPO_ASEGURAMIENTO= recode(
+    TIPO_ASEGURAMIENTO, 
+    "PENSIONADOS EN SU PROPIO SISTEMA" = "JUBILADOS",
+    "ASEGURADOS VOLUNTARIOS" = "A_VOLUNTARIOS",
+    "TRABAJADOR INDEPENDIENTE" = "T_INDEPENDIENTE",
+    "CONVENIOS ESPECIALES DE TRABAJADORES INDEPENDIENTES" = "CONV_INDEP",
+    "CONVENIOS ESPECIALES DE ASEGURADOS VOLUNTARIOS" = "CONV_VOLUNT")) %>% 
+  select(-IDENTIFICACION) 
+
+#Se inicia la conStrucción del árbol. 
+tree <- rpart(INDICADOR_MOROSO~., data = base.arbol, method = "class")
+rpart.plot(tree, type = 4, extra = 104)
+```
+
+Interpretación: note que la primera variable que aparece en el árbol de decisión es el tipo de aseguramiento, un indicador de que esta variable es la más influyente en la predicción de la morosidad en los clientes.
+
+Las personas que no pertenecen a los tipos de aseguramiento que se detallan a la izquierda del árbol de decisión, tienen un resultado predictivo negativo en el rubro de morosidad. En dado caso de que el asegurado sí pertenezca a las categorías del tipo de aseguramiento que se detallan allí, hay que proceder por la derecha, donde la siguiente interrogante consiste en si se clasifica como un trabajador independiente, en dado caso de ser negativo entran en juego dos nuevas cuestiones: la variable de la procedencia, que en caso de ser negativa, existe una división predictiva por salario de acuerdo a ciertos valores del mismo; y en dado caso de que el asegurado sea extranjero el valor predictivo es positivo. Por otro lado, si sí es trabajador independiente, se obtiene un valor predictivo positivo.
